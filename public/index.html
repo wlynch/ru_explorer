@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<body>
+<p id="demo"></p>
+<button onclick="getLocation()">Get nearest bus stops</button>
+<script>
+var x=document.getElementById("demo");
+function getLocation()
+{
+	if (navigator.geolocation)
+	{
+		//navigator.geolocation.getCurrentPosition(showPosition);
+		var params = navigator.geolocation.getCurrentPosition(function(position){
+			console.log(position);
+			$.get("nextbus?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude, 
+				function(data, status){
+					for (var stop in data) {
+						x.innerHTML += stop + ": " + data[stop] + "<br/>";
+					}
+			});
+		});
+	} else {
+		x.innerHTML="Geolocation is not supported by this browser.";
+	}
+}
+</script>
+<script src="http://code.jquery.com/jquery-latest.min.js"
+        type="text/javascript"></script>
+</body>
+</html>

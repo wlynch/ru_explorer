@@ -14,6 +14,7 @@ function getLocation()
 			console.log(position);
 			$.get("nextbus?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude, 
 				function(data, status){
+					x.innerHTML = "";
 					for (var stop in data) {
 						x.innerHTML += stop + ": " + data[stop] + "<br/>";
 					}

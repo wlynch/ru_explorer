@@ -28,10 +28,26 @@ def bus():
 
 @app.route("/events")
 def get_events():
-#	lat = 40.5220011
-#	lon = -74.46236700000001
-	print type(events.events)
 	return flask.jsonify(events = events.events)
+
+@app.route("/events/nearby")
+def get_nearby_events():
+	#Zimmerli
+	#lat = 40.4991876
+	#lon = -74.4473217
+
+	# Hill Center
+	lat = 40.5220011
+	lon = -74.46236700000001
+
+	#lat = request.args.get("lat")
+	#lon = request.args.get("lon")
+	retval = []
+	for event in events.events:
+		if events.is_nearby(event["event_buildingno"], lat, lon):
+			print event["title"]
+			retval.append(event)
+	return flask.jsonify(events = retval)
 
 if __name__ == "__main__":
 	app.run(debug=True)

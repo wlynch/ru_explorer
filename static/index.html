@@ -12,11 +12,18 @@ function getLocation()
 		//navigator.geolocation.getCurrentPosition(showPosition);
 		var params = navigator.geolocation.getCurrentPosition(function(position){
 			console.log(position);
-			$.get("nextbus?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude, 
+			$.get("/bus?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude, 
 				function(data, status){
+					console.log(data);
 					x.innerHTML = "";
 					for (var stop in data) {
-						x.innerHTML += stop + ": " + data[stop] + "<br/>";
+						console.log(stop)
+						for (var route in stop) {
+							console.log(route);
+							if (route["predictions"] != null) {
+								x.innerHTML += stop + ": " + route["predictions"][0]["minutes"] + "<br/>";
+							}
+						}
 					}
 			});
 		});

@@ -1,4 +1,4 @@
-import events, flask, json, requests
+import events, flask, json, requests, sports
 from flask import Flask, request
 from secrets import wunder_key
 
@@ -57,7 +57,14 @@ def get_weather():
 	lat = 40.5220011
 	lon = -74.46236700000001
 
+	#lat = request.args.get("lat")
+	#lon = request.args.get("lon")
+
 	return flask.jsonify(requests.get(weatherURL.format(lat,lon)).json())
+
+@app.route("/sports")
+def get_sports():
+	return flask.jsonify(scores = sports.get_scores())
 
 if __name__ == "__main__":
 	app.run(debug=True)

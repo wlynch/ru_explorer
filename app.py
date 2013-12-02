@@ -1,8 +1,10 @@
 import events, flask, json, requests
 from flask import Flask, request
-app = Flask(__name__)
+from secrets import wunder_key
 
+app = Flask(__name__)
 nextbusURL="http://runextbus.herokuapp.com"
+weatherURL="http://api.wunderground.com/api/" + wunder_key + "/conditions/q/{0},{1}.json"
 
 @app.route("/")
 def hello():
@@ -48,6 +50,14 @@ def get_nearby_events():
 			print event["title"]
 			retval.append(event)
 	return flask.jsonify(events = retval)
+
+@app.route("/weather")
+def get_weather():
+	# Hill Center
+	lat = 40.5220011
+	lon = -74.46236700000001
+
+	return flask.jsonify(requests.get(weatherURL.format(lat,lon)).json())
 
 if __name__ == "__main__":
 	app.run(debug=True)

@@ -32,9 +32,18 @@ def find_nearest_buildings(lat, lon, precis=6):
 
 def is_nearby(building_id, lat, lon, precis=6):
 	target_hash = geohash.encode(lat, lon, precision=precis)
+	if building_id not in buildings:
+		return False
 	building = buildings[building_id]
 	if "location" in building:
 		building_hash = geohash.encode(float(building["location"]["latitude"]), float(building["location"]["longitude"]), precision=precis)
 		if target_hash == building_hash:
 			return True;
 	return False
+
+def get_nearby(lat, lon):
+	retval = []
+	for event in events:
+		if is_nearby(event["event_buildingno"], lat, lon):
+			retval.append(event)
+	return retval

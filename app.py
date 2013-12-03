@@ -1,32 +1,19 @@
-import events, flask, json, requests, sports
+import bus, events as ru_events, flask, sports, weather
 from flask import Flask, request
-from secrets import wunder_key
 
 app = Flask(__name__)
-nextbusURL="http://runextbus.herokuapp.com"
-weatherURL="http://api.wunderground.com/api/" + wunder_key + "/conditions/q/{0},{1}.json"
 
 @app.route("/")
 def hello():
 	return "Hello World!"
 
 @app.route("/bus")
-def bus():
-#	lat = 40.5220011
-#	lon = -74.46236700000001
-	lat = request.args.get("lat")
-	lon = request.args.get("lon")
-	stops = requests.get(nextbusURL + "/nearby/" + str(lat) + "/" + str(lon)).json()
-	print stops
-	retval = {}
-	for stop in stops:
-		print stop
-		print type(stop)
-		tmp = requests.get(nextbusURL + "/stop/" + stop).json()
-		print json.dumps(tmp)
-		retval[stop] = tmp
-	print "done!"
-	return flask.jsonify(retval)
+def get_nearby_bus():
+	lat = 40.5220011
+	lon = -74.46236700000001
+	#lat = request.args.get("lat")
+	#lon = request.args.get("lon")
+	return flask.jsonify(bus.get_nearby(lat, lon))
 
 @app.route("/events")
 def get_events():
@@ -35,21 +22,16 @@ def get_events():
 @app.route("/events/nearby")
 def get_nearby_events():
 	#Zimmerli
-	#lat = 40.4991876
-	#lon = -74.4473217
+	lat = 40.4991876
+	lon = -74.4473217
 
 	# Hill Center
-	lat = 40.5220011
-	lon = -74.46236700000001
+	#lat = 40.5220011
+	#lon = -74.46236700000001
 
 	#lat = request.args.get("lat")
 	#lon = request.args.get("lon")
-	retval = []
-	for event in events.events:
-		if events.is_nearby(event["event_buildingno"], lat, lon):
-			print event["title"]
-			retval.append(event)
-	return flask.jsonify(events = retval)
+	return flask.jsonify(events = ru_events.get_nearby(lat, lon))
 
 @app.route("/weather")
 def get_weather():
@@ -60,7 +42,7 @@ def get_weather():
 	#lat = request.args.get("lat")
 	#lon = request.args.get("lon")
 
-	return flask.jsonify(requests.get(weatherURL.format(lat,lon)).json())
+	return flask.jsonify(weather.get_weather(lat, lon))
 
 @app.route("/sports")
 def get_sports():

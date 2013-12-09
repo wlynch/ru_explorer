@@ -1,69 +1,24 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-	<body>
-		<div id="bus">
-			<h2>Bus stops</h2>
-			<ul>
-			{% for route in bus %}
-				<li>
-					<h3>{{route}}</h3>
-					<ul id="stops">
-					{% for stop in bus[route] %}
-						<li>
-							<h4>{{stop.title}}</h4>
-							<ul>
-							{% if stop.predictions %}
-							{% for predict in stop.predictions %}
-								<li>{{predict.minutes}}</li>
-							{% endfor %}
-							{% endif %}
-							</ul>
-						</li>
-					{% endfor %}
-					</ul>
-				</li>
-			{% endfor %}
-			</ul>
-		</div>
-		<div id="events">
-			<h2>Nearby events</h2>
-			<ul>
-			{% for event in events %}
-				<li>
-					{{event.title}}
-					<br/>
-					{{event.event_begindatetime}}
-					<br/>
-					{{event.event_location}} {{event.event_room}}
-					<br/>
-					{{event.event_orgname}}
-				</li>
-			{% endfor %}
-			</ul>
-		</div>
-		<div id="sports">
-			<h2>Sports</h2>
-			<ul>
-			{% for sport in sports %}
-				<li>
-					{{sport.sport}} {{sport.opponent}}
-					<br/>
-					{{sport.location}}
-					<br/>
-					{{sport.datetime}}
-					<br/>
-					{{sport.score}}
-				</li>
-			{% endfor %}
-			</ul>
-		</div>
-		<div id="weather">
-			<h2>Weather</h2>
-			<img src="{{weather.current_observation.icon_url}}" alt="{{weather.current_observation.icon}}">
-			<br/>
-			{{weather.current_observation.display_location.full}}
-			<br/>
-			{{weather.current_observation.feelslike_string}}
-		</div>
-	</body>
+<body>
+<p id="body"></p>
+<script>
+var x=document.getElementById("body");
+function getLocation()
+{
+	if (navigator.geolocation)
+	{
+		x.innerHTML = "Getting current position...";
+		navigator.geolocation.getCurrentPosition(function(position){
+			window.location = "/explore?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude;
+		});
+	} else {
+		x.innerHTML="Geolocation is not supported by this browser.";
+	}
+}
+window.onload = getLocation;
+</script>
+<script src="http://code.jquery.com/jquery-latest.min.js"
+        type="text/javascript"></script>
+</body>
 </html>

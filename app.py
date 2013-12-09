@@ -4,13 +4,16 @@ from flask import Flask, request, render_template
 app = Flask(__name__)
 
 @app.route("/")
-@app.route("/index")
+@app.route("/index.html")
 def index():
+	return render_template("index.html")
+
+@app.route("/explore")
+def explore():
 	lat = 40.4991876
 	lon = -74.4473217
-	return render_template("index.html",
-		#bus = bus.get_nearby(lat, lon),
-		bus = bus.get_nearby(40.5220011, -74.462367),
+	return render_template("explore.html",
+		bus = bus.get_nearby(lat, lon),
 		events = events.get_nearby(lat, lon),
 		sports = sports.get_scores(),
 		weather = weather.get_weather(lat, lon))

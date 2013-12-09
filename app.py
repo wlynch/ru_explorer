@@ -13,8 +13,8 @@ def explore():
 	#Zimmerli
 	#lat = 40.4991876
 	#lon = -74.4473217
-	lat = request.args.get("lat")
-	lon = request.args.get("lon")
+	lat = float(request.args.get("lat"))
+	lon = float(request.args.get("lon"))
 	return render_template("explore.html",
 		bus = bus.get_nearby(lat, lon),
 		events = events.get_nearby(lat, lon),

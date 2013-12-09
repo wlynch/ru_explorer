@@ -10,6 +10,7 @@ def prune_routes(routes):
 		for stop in routes[route]:
 			if stop["predictions"] is not None:
 				empty = False
+				stop["predictions"] = stop["predictions"][:3]
 			else:
 				remove.append(stop)
 		for stop in remove:

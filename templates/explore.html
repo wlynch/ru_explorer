@@ -8,77 +8,138 @@
     <script src="static/js/modernizr.js"></script>
   </head>
 	<body>
-		<ul data-orbit>
+		<ul data-orbit 
+				data-options="slide_number:false;">
+			<li>
+				<div class="clock">
+					<center>
+						<h1>
+							<div class="row">
+								<div class="small-12 columns" id="date"></div>
+							</div>
+							<div class="row">
+								<div class="small-12 columns" id="time"></div>
+							</div>
+						</h1>
+					</center>
+				</div>
+				<script src="static/js/clock.js"></script>
+			</li>
 			<li>
 				<div id="bus">
-					<h2>Bus stops</h2>
-					<ul>
+					<h1>Bus stops</h1>
 					{% for route in bus %}
-						<li>
-							<h3>{{route}}</h3>
-							<ul id="stops">
-							{% for stop in bus[route] %}
-								<li>
-									<h4>{{stop.title}}</h4>
-									<ul>
+					<div class="small-3 large-3 columns">
+						<table>
+							<thead>
+								<tr>
+									<th>{{route}}</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for stop in bus[route] %}
+								<tr>
+									<td>{{stop.title}} {{stop.direction}}</td>
 									{% if stop.predictions %}
-									{% for predict in stop.predictions %}
-										<li>{{predict.minutes}}</li>
-									{% endfor %}
+										{% for predict in stop.predictions %}
+											<td>{{predict.minutes}}</td>
+										{% endfor %}
 									{% endif %}
-									</ul>
-								</li>
-							{% endfor %}
-							</ul>
-						</li>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
 					{% endfor %}
-					</ul>
 				</div>
 			</li>
 			<li>
 				<div id="events">
-					<h2>Nearby events</h2>
-					<ul>
-					{% for event in events %}
-						<li>
-							{{event.title}}
-							<br/>
-							{{event.event_begindatetime}}
-							<br/>
-							{{event.event_location}} {{event.event_room}}
-							<br/>
-							{{event.event_orgname}}
-						</li>
-					{% endfor %}
-					</ul>
+					<h1>Nearby events</h1>
+					<div class="row">
+						<div class="small-12 small-centered columns">
+							<table>
+								<thead>
+									<tr>
+										<th>Title</th>
+										<th>Time</th>
+										<th>Location</th>
+										<th>Organization</th>
+									</tr>
+								</thead>
+								<tbody>
+								{% for event in events %}
+									<tr>
+										<td>{{event.title}}</td>
+										<td>{{event.event_begindatetime}}</td>
+										<td>{{event.event_location}} {{event.event_room}}</td>
+										<td>{{event.event_orgname}}</td>
+									</tr>
+								{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
 				</div>
 			</li>
 			<li>
 				<div id="sports">
-					<h2>Sports</h2>
-					<ul>
-					{% for sport in sports %}
-						<li>
-							{{sport.sport}} {{sport.opponent}}
-							<br/>
-							{{sport.location}}
-							<br/>
-							{{sport.datetime}}
-							<br/>
-							{{sport.score}}
-						</li>
-					{% endfor %}
-					</ul>
+					<h1>Sports</h1>
+					<div class="row">
+						<div class="small-12 small-centered columns">
+							<table>
+								<thead>
+									<tr>
+										<th>Sport</th>
+										<th>Opponent</th>
+										<th>Location</th>
+										<th>Date</th>
+										<th>Score</th>
+									</tr>
+								</thead>
+								<tbody>
+								{% for sport in sports %}
+									<tr>
+										<td>{{sport.sport}}</td>
+										<td>{{sport.opponent}}</td>
+										<td>{{sport.location}}</td>
+										<td>{{sport.datetime}}</td>
+										<td>{{sport.score}}</td>
+									</tr>
+								{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
 				</div>
 			</li>
 			<li>
 				<div id="weather">
-					<h2>Weather</h2>
-					<img src="{{weather.current_observation.icon_url}}" alt="{{weather.current_observation.icon}}">
-					<br/>
-					{{weather.current_observation.display_location.full}}
-					<br/>
-					{{weather.current_observation.feelslike_string}}
+					<h1>Weather</h1>
+					<div class="row">
+						<div class="small-12 columns">
+							<h3>{{weather.current_observation.display_location.full}}</h3>
+						</div>
+					</div>
+					<div class="row">
+						<div class="small-6 columns">
+							<img src="{{weather.current_observation.icon_url}}" alt="{{weather.current_observation.icon}}">
+						</div>
+						<div class="small-6 columns">
+							{{weather.current_observation.weather}}
+							<br/>
+							{{weather.current_observation.feelslike_string}}
+							<br/>
+							Humidity: {{weather.current_observation.relative_humidity}}
+							<br/>
+							Precipitation: {{weather.current_observation.precip_today_string}}
+							<br/>
+							Wind: {{weather.current_observation.wind_string}} ({{weather.current_observation.wind_gust_mph}} MPH {{weather.current_observation.wind_dir}})
+							<br/>
+							<br/>
+							{{weather.current_observation.observation_time}}
+						</div>
+					</div>
 				</div>
 			</li>
 		</ul>

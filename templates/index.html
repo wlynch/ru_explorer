@@ -10,7 +10,7 @@ function getLocation()
 	{
 		x.innerHTML = "Getting current position...";
 		navigator.geolocation.getCurrentPosition(function(position){
-			window.location = "/explore?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude;
+			window.location = "explore?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude;
 		});
 	} else {
 		x.innerHTML="Geolocation is not supported by this browser.";

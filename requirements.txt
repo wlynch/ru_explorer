@@ -1,4 +1,5 @@
-json
+beautifulsoup4
+feedparser
 flask
 python-geohash
 requests

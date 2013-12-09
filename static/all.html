@@ -1,0 +1,36 @@
+<html>
+	<head>
+
+	</head>
+	<body>
+		<div id="data">
+		</div>
+		<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+		<script>
+			var load_data = function(data)
+			{
+				console.log(data);
+				$.each(data, function(i, element) {
+					console.log(i);
+					$("#data").append($("<div/>", {id: i}).text("hi"));
+					//$("#data").append($("<div/>", { id: i }));
+				})
+			};
+
+			function get_data()
+			{
+				if (navigator.geolocation)
+				{
+					navigator.geolocation.getCurrentPosition(function(position) {
+						console.log(position);
+						$.get("/all?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude, 
+								function(data, status){ 
+							load_data(data); 
+						});
+					});
+				}
+			};
+			window.onload = get_data();
+		</script>
+	</body>
+</html>

@@ -1,11 +1,29 @@
-import bus, events as ru_events, flask, sports, weather
-from flask import Flask, request
+import bus, events, flask, sports, weather
+from flask import Flask, request, render_template
 
 app = Flask(__name__)
 
 @app.route("/")
-def hello():
-	return "Hello World!"
+@app.route("/index")
+def index():
+	lat = 40.4991876
+	lon = -74.4473217
+	return render_template("index.html",
+		#bus = bus.get_nearby(lat, lon),
+		bus = bus.get_nearby(40.5220011, -74.462367),
+		events = events.get_nearby(lat, lon),
+		sports = sports.get_scores(),
+		weather = weather.get_weather(lat, lon))
+
+@app.route("/all")
+def get_all():
+	# Zimmerli
+	lat = 40.4991876
+	lon = -74.4473217
+	#lat = request.args.get("lat")
+	#lon = request.args.get("lon")
+	return flask.jsonify({"bus": bus.get_nearby(lat, lon), "events": events.get_nearby(lat, lon),
+												"sports": sports.get_scores(), "weather": weather.get_weather(lat, lon)})
 
 @app.route("/bus")
 def get_nearby_bus():
@@ -21,7 +39,7 @@ def get_events():
 
 @app.route("/events/nearby")
 def get_nearby_events():
-	#Zimmerli
+	# Zimmerli
 	lat = 40.4991876
 	lon = -74.4473217
 
@@ -31,7 +49,7 @@ def get_nearby_events():
 
 	#lat = request.args.get("lat")
 	#lon = request.args.get("lon")
-	return flask.jsonify(events = ru_events.get_nearby(lat, lon))
+	return flask.jsonify(events = events.get_nearby(lat, lon))
 
 @app.route("/weather")
 def get_weather():
@@ -46,7 +64,7 @@ def get_weather():
 
 @app.route("/sports")
 def get_sports():
-	return flask.jsonify(scores = sports.get_scores())
+	return flask.jsonify(sports = sports.get_scores())
 
 if __name__ == "__main__":
 	app.run(debug=True)

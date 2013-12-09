@@ -8,70 +8,80 @@
     <script src="static/js/modernizr.js"></script>
   </head>
 	<body>
-		<div id="bus">
-			<h2>Bus stops</h2>
-			<ul>
-			{% for route in bus %}
-				<li>
-					<h3>{{route}}</h3>
-					<ul id="stops">
-					{% for stop in bus[route] %}
+		<ul data-orbit>
+			<li>
+				<div id="bus">
+					<h2>Bus stops</h2>
+					<ul>
+					{% for route in bus %}
 						<li>
-							<h4>{{stop.title}}</h4>
-							<ul>
-							{% if stop.predictions %}
-							{% for predict in stop.predictions %}
-								<li>{{predict.minutes}}</li>
+							<h3>{{route}}</h3>
+							<ul id="stops">
+							{% for stop in bus[route] %}
+								<li>
+									<h4>{{stop.title}}</h4>
+									<ul>
+									{% if stop.predictions %}
+									{% for predict in stop.predictions %}
+										<li>{{predict.minutes}}</li>
+									{% endfor %}
+									{% endif %}
+									</ul>
+								</li>
 							{% endfor %}
-							{% endif %}
 							</ul>
 						</li>
 					{% endfor %}
 					</ul>
-				</li>
-			{% endfor %}
-			</ul>
-		</div>
-		<div id="events">
-			<h2>Nearby events</h2>
-			<ul>
-			{% for event in events %}
-				<li>
-					{{event.title}}
+				</div>
+			</li>
+			<li>
+				<div id="events">
+					<h2>Nearby events</h2>
+					<ul>
+					{% for event in events %}
+						<li>
+							{{event.title}}
+							<br/>
+							{{event.event_begindatetime}}
+							<br/>
+							{{event.event_location}} {{event.event_room}}
+							<br/>
+							{{event.event_orgname}}
+						</li>
+					{% endfor %}
+					</ul>
+				</div>
+			</li>
+			<li>
+				<div id="sports">
+					<h2>Sports</h2>
+					<ul>
+					{% for sport in sports %}
+						<li>
+							{{sport.sport}} {{sport.opponent}}
+							<br/>
+							{{sport.location}}
+							<br/>
+							{{sport.datetime}}
+							<br/>
+							{{sport.score}}
+						</li>
+					{% endfor %}
+					</ul>
+				</div>
+			</li>
+			<li>
+				<div id="weather">
+					<h2>Weather</h2>
+					<img src="{{weather.current_observation.icon_url}}" alt="{{weather.current_observation.icon}}">
 					<br/>
-					{{event.event_begindatetime}}
+					{{weather.current_observation.display_location.full}}
 					<br/>
-					{{event.event_location}} {{event.event_room}}
-					<br/>
-					{{event.event_orgname}}
-				</li>
-			{% endfor %}
-			</ul>
-		</div>
-		<div id="sports">
-			<h2>Sports</h2>
-			<ul>
-			{% for sport in sports %}
-				<li>
-					{{sport.sport}} {{sport.opponent}}
-					<br/>
-					{{sport.location}}
-					<br/>
-					{{sport.datetime}}
-					<br/>
-					{{sport.score}}
-				</li>
-			{% endfor %}
-			</ul>
-		</div>
-		<div id="weather">
-			<h2>Weather</h2>
-			<img src="{{weather.current_observation.icon_url}}" alt="{{weather.current_observation.icon}}">
-			<br/>
-			{{weather.current_observation.display_location.full}}
-			<br/>
-			{{weather.current_observation.feelslike_string}}
-		</div>
+					{{weather.current_observation.feelslike_string}}
+				</div>
+			</li>
+		</ul>
 		<script src="static/js/jquery.js"></script>
 		<script src="static/js/foundation.min.js"></script>
 		<script>

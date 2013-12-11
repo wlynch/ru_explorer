@@ -44,6 +44,7 @@ def is_nearby(building_id, lat, lon, precis=6):
 def get_nearby(lat, lon):
 	retval = []
 	for event in events:
-		if is_nearby(event["event_buildingno"], lat, lon):
+		if is_nearby(event["event_buildingno"], lat, lon, 5):
 			retval.append(event)
+	print retval
 	return retval

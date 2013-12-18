@@ -4,6 +4,7 @@ nextbusURL="http://runextbus.herokuapp.com"
 
 # Removes routes that are currently not in service 
 def prune_routes(routes):
+	remove_route = []
 	for route in routes:
 		empty = True
 		remove = []
@@ -14,10 +15,12 @@ def prune_routes(routes):
 			else:
 				remove.append(stop)
 		for stop in remove:
-			routes[route].remove(stop)
+				routes[route].remove(stop)
 		if empty is True:
-			routes.pop(route)
-	return routes
+				remove_route.append(route)
+	for route in remove_route:
+		routes.pop(route)
+	return routes 
 
 def get_nearby(lat, lon):
 	stops = requests.get(nextbusURL + "/nearby/" + str(lat) + "/" + str(lon)).json()

@@ -8,6 +8,7 @@
     <script src="static/js/modernizr.js"></script>
   </head>
 	<body>
+		<div id="body_holder" style="display:none">
 		<ul data-orbit 
 				data-options="slide_number:false;">
 			<li>
@@ -143,13 +144,15 @@
 				</div>
 			</li>
 		</ul>
+		</div>
 		<script src="static/js/jquery.js"></script>
 		<script src="static/js/foundation.min.js"></script>
 		<script>
 			$(document).foundation();
-		</script>
-		<script>
 			setTimeout(function(){location.reload(true)}, 50000);
+			$(document).ready(function() {
+				$('#body_holder').show();
+			});
 		</script>
 	</body>
 </html>
